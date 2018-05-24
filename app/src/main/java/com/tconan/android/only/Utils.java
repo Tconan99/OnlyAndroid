@@ -10,7 +10,7 @@ public class Utils {
             toast.cancel();
         }
 
-        toast = Toast.makeText(App.getContext(), content, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(App.context(), content, Toast.LENGTH_SHORT);
         toast.show();
     }
 }

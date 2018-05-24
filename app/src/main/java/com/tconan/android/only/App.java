@@ -50,7 +50,7 @@ public class App extends Application {
 
     }
 
-    public static Context getContext() {
+    public static Context context() {
         return context;
     }
 }

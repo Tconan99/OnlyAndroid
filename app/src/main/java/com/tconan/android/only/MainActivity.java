@@ -3,6 +3,7 @@ package com.tconan.android.only;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,8 +44,14 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_weibo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSsoHandler = new SsoHandler(MainActivity.this);
-                mSsoHandler.authorize(new SelfWbAuthListener());
+                Oauth2AccessToken token = AccessTokenKeeper.readAccessToken(App.context());
+                if (token == null) {
+                    mSsoHandler = new SsoHandler(MainActivity.this);
+                    mSsoHandler.authorize(new SelfWbAuthListener());
+                } else {
+                    Utils.toast("已登录, 可直接使用");
+                    Log.d("MainActivity", token.getToken());
+                }
             }
         });
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         // 显示 Token
                         // updateTokenView(false);
                         // 保存 Token 到 SharedPreferences
-                        AccessTokenKeeper.writeAccessToken(MainActivity.this, mAccessToken);
+                        AccessTokenKeeper.writeAccessToken(App.context(), mAccessToken);
                         Utils.toast("登录成功");
                     }
                 }
